@@ -1,0 +1,50 @@
+DESCRIPTION="Flexible Image Transport System subroutine library"
+HOMEPAGE="http://heasarc.gsfc.nasa.gov/fitsio/"
+SRC_URI="ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/${PN}${PV//.}.tar.gz"
+SRC_DIR=${PN}
+
+PATCH_URI="
+	http://patch-tracking.debian.net/patch/series/dl/${PN}${PV[1]}/${PV}-2/01-gfortran.patch
+	http://patch-tracking.debian.net/patch/series/dl/${PN}${PV[1]}/${PV}-2/02-version-check.patch
+	http://patch-tracking.debian.net/patch/series/dl/${PN}${PV[1]}/${PV}-2/03-ftexest.patch
+	http://patch-tracking.debian.net/patch/series/dl/${PN}${PV[1]}/${PV}-2/04-pkgconfig-version.patch
+"
+
+PKG_NAMES="${PN} fpack lib${PN}${PV[1]} lib${PN}-devel"
+fpack_CONTENTS="usr/bin/f*pack.exe"
+declare libcfitsio${PV[1]}_CONTENTS="usr/bin/cygcfitsio-${PV[1]}.dll usr/share/doc/"
+libcfitsio_devel_CONTENTS="usr/include/ usr/lib/"
+
+src_compile() {
+	cd ${S}
+	cygautoreconf
+	lndirs
+	cd ${B}
+	cygconf
+	cygmake clean all
+	verbose ${CC} -shared ${LDFLAGS} -Wl,--enable-auto-image-base,--out-implib,libcfitsio.dll.a \
+		-o cygcfitsio-${PV[1]}.dll *.o || error "DLL link failed"
+	cygmake fpack funpack
+}
+
+src_test() {
+	local t="testprog speed cookbook"
+	cd ${B}
+	cygmake ${t}
+	for x in ${t}
+	do
+		./${x} || true
+	done
+}
+
+src_install() {
+	cd ${B}
+	dobin cygcfitsio-${PV[1]}.dll f{,un}pack.exe
+	dolib libcfitsio.{,dll.}a
+
+	insinto /usr/include
+	doins fitsio.h fitsio2.h longnam.h drvrsmem.h
+
+	insinto /usr/lib/pkgconfig
+	doins ${PN}.pc
+}

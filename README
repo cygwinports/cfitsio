@@ -1,0 +1,54 @@
+cfitsio
+------------------------------------------
+CFITSIO is a library of C and Fortran subroutines for reading and 
+writing data files in FITS (Flexible Image Transport System) data 
+format. CFITSIO provides simple high-level routines for reading and 
+writing FITS files that insulate the programmer from the internal 
+complexities of the FITS format. CFITSIO also provides many advanced 
+features for manipulating and filtering the information in FITS files.
+
+Runtime requirements:
+  cygwin-1.7.0-51
+  libgcc1-4.3.2-2
+
+Build requirements:
+(besides corresponding -devel packages)
+  autoconf2.5-2.63-10
+  binutils-2.19.51-1
+  cygport-0.9.9-1
+  gawk-3.1.6-2
+  gcc4-core-4.3.2-2
+  gcc4-fortran-4.3.2-2
+  make-3.81-2
+
+Canonical website:
+  http://heasarc.gsfc.nasa.gov/docs/software/fitsio/fitsio.html
+
+Canonical download:
+  ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/
+
+-------------------------------------------
+
+Build instructions:
+  unpack cfitsio-3.140-X-src.tar.bz2
+    if you use setup to install this src package, it will be
+	 unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./cfitsio-3.140-X.cygport all
+
+This will create:
+  /usr/src/cfitsio-3.140-X-src.tar.bz2
+  /usr/src/fpack-3.140-X.tar.bz2
+  /usr/src/libcfitsio-devel-3.140-X.tar.bz2
+  /usr/src/libcfitsio3-3.140-X.tar.bz2
+
+-------------------------------------------
+
+Port Notes:
+
+----- version 3.140-1 -----
+Initial release for Cygwin 1.7.
+
+
+Cygwin port maintained by:
+http://sourceware.org/cygwinports/
