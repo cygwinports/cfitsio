@@ -1,5 +1,5 @@
 category: Science
-requires: libgcc1
+requires: libgcc1 zlib0
 external-source: cfitsio
 sdesc: "FITS C/Fortran subroutine library (runtime)"
 ldesc: "CFITSIO is a library of C and Fortran subroutines for reading and

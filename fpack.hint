@@ -1,5 +1,5 @@
 category: Science
-requires: libcfitsio3 libgcc1
+requires: zlib0
 external-source: cfitsio
 sdesc: "FITS image compression programs"
 ldesc: "CFITSIO is a library of C and Fortran subroutines for reading and

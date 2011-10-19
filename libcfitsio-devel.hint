@@ -1,5 +1,5 @@
 category: Science
-requires: libcfitsio3
+requires: libcfitsio3 zlib-devel
 external-source: cfitsio
 sdesc: "FITS C/Fortran subroutine library (development)"
 ldesc: "CFITSIO is a library of C and Fortran subroutines for reading and
