@@ -1,7 +1,7 @@
 NAME="cfitsio"
-VERSION=3.310
+VERSION=3.350
 RELEASE=1
-CATEGORY="Science"
+CATEGORY="Libs"
 SUMMARY="Flexible Image Transport System data parser library"
 DESCRIPTION="CFITSIO is a library of C and Fortran subroutines for reading and
 writing data files in FITS (Flexible Image Transport System) data format.
@@ -10,14 +10,15 @@ that insulate the programmer from the internal complexities of the FITS format.
 CFITSIO also provides many advanced features for manipulating and filtering
 the information in FITS files."
 HOMEPAGE="http://heasarc.gsfc.nasa.gov/fitsio/"
-SRC_URI="ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/${PN}${PV//.}.tar.gz"
-SRC_DIR=${PN}
+SRC_URI="ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/${NAME}${VERSION//.}.tar.gz"
+SRC_DIR=${NAME}
 
 PATCH_URI="
 	http://pkgs.fedoraproject.org/cgit/cfitsio.git/plain/cfitsio-noversioncheck.patch
 	http://pkgs.fedoraproject.org/cgit/cfitsio.git/plain/cfitsio-zlib.patch
 "
 PKG_NAMES="fpack libcfitsio3 libcfitsio-devel"
+fpack_CATEGORY="Science"
 fpack_SUMMARY="FITS image compression programs"
 fpack_CONTENTS="usr/bin/f*pack.exe"
 libcfitsio3_SUMMARY="${SUMMARY} (runtime)"
