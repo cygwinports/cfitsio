@@ -1,5 +1,5 @@
 NAME="cfitsio"
-VERSION=3.360
+VERSION=3.450
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="Flexible Image Transport System data parser library"
@@ -13,19 +13,20 @@ HOMEPAGE="http://heasarc.gsfc.nasa.gov/fitsio/"
 SRC_URI="ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/cfitsio${VERSION//.}.tar.gz"
 SRC_DIR="cfitsio"
 PATCH_URI="
-	http://pkgs.fedoraproject.org/cgit/cfitsio.git/plain/cfitsio-noversioncheck.patch
-	http://pkgs.fedoraproject.org/cgit/cfitsio.git/plain/cfitsio-pkgconfig.patch
-	http://pkgs.fedoraproject.org/cgit/cfitsio.git/plain/cfitsio-zlib.patch
+	https://src.fedoraproject.org/cgit/rpms/cfitsio.git/plain/cfitsio-noversioncheck.patch
+	https://src.fedoraproject.org/cgit/rpms/cfitsio.git/plain/cfitsio-pkgconfig.patch
+	https://src.fedoraproject.org/cgit/rpms/cfitsio.git/plain/cfitsio-zlib.patch
+	3.450-cygwin-make-dll.patch
 "
 
-PKG_NAMES="fpack libcfitsio3 libcfitsio-devel"
+PKG_NAMES="fpack libcfitsio7 libcfitsio-devel"
 fpack_CATEGORY="Science"
 fpack_SUMMARY="FITS image compression programs"
 fpack_CONTENTS="usr/bin/f*pack.exe"
-libcfitsio3_SUMMARY="${SUMMARY} (runtime)"
-libcfitsio3_CONTENTS="usr/bin/cygcfitsio-3.dll usr/share/doc/"
+libcfitsio7_SUMMARY="${SUMMARY} (runtime)"
+libcfitsio7_CONTENTS="usr/bin/cygcfitsio-7.dll"
 libcfitsio_devel_SUMMARY="${SUMMARY} (development)"
-libcfitsio_devel_CONTENTS="usr/include/ usr/lib/"
+libcfitsio_devel_CONTENTS="usr/include/ usr/lib/ usr/share/doc/"
 
 src_compile() {
 	cd ${S}
@@ -34,10 +35,7 @@ src_compile() {
 	cd ${B}
 	cygconf
 	cygmake clean all
-	verbose ${CC} -shared ${LDFLAGS} -Wl,--out-implib,libcfitsio.dll.a \
-		-o cygcfitsio-${VERSION%%.*}.dll \
-		-Wl,--whole-archive libcfitsio.a -Wl,--no-whole-archive \
-		-lz || error "DLL link failed"
+	cygmake cygdll
 	cygmake fpack funpack LIBS=-lz
 }
 
@@ -53,7 +51,7 @@ src_test() {
 
 src_install() {
 	cd ${B}
-	dobin cygcfitsio-${VERSION%%.*}.dll f{,un}pack.exe
+	dobin cygcfitsio-*.dll f{,un}pack.exe
 	dolib libcfitsio.dll.a
 	includeinto cfitsio
 	doinclude fitsio.h fitsio2.h longnam.h drvrsmem.h

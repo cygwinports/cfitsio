@@ -1,0 +1,14 @@
+--- origsrc/cfitsio/Makefile.in	2019-01-17 15:44:44.566063600 -0600
++++ src/cfitsio/Makefile.in	2019-01-17 15:57:00.252382100 -0600
+@@ -97,6 +97,11 @@ lib${PACKAGE}.a:	${OBJECTS}
+ 		${ARCHIVE} $@ ${OBJECTS}; \
+ 		${RANLIB} $@;
+ 
++cygdll: cyg${PACKAGE}-${CFITSIO_SONAME}.dll
++
++cyg${PACKAGE}-${CFITSIO_SONAME}.dll: ${OBJECTS}
++		${SHLIB_LD} ${LDFLAGS} -Wl,--out-implib,lib${PACKAGE}.dll.a -o $@ ${OBJECTS} -lm -lz -lbz2 ${LIBS}
++
+ shared: lib${PACKAGE}${SHLIB_SUFFIX}
+ 
+ lib${PACKAGE}${SHLIB_SUFFIX}: ${OBJECTS}
