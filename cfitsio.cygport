@@ -33,7 +33,7 @@ src_compile() {
 	cygautoreconf
 	lndirs
 	cd ${B}
-	cygconf
+	cygconf --with-bzip2
 	cygmake clean all
 	cygmake cygdll
 	cygmake fpack funpack LIBS=-lz
